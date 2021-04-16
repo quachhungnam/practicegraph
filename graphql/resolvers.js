@@ -3,6 +3,7 @@ const Account = require('../models/Account');
 const Post = require('../models/Post');
 const PostType = require('../models/PostType');
 const Status = require('../models/Status');
+const ffff = require('./index');
 
 const getMongooseSelection = (info, fieldPath = null) => {
   const selections = graphqlFields(info);
@@ -16,6 +17,7 @@ const resolvers = {
       const mongooseSelection = await getMongooseSelection(info);
       const accounts = await Account.find({}).select(mongooseSelection).lean();
       console.log(accounts);
+      console.log(ffff);
       return accounts;
     },
     status: async (root, args, context, info) => {

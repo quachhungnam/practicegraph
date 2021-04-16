@@ -1,0 +1,5 @@
+type PostType {
+  _id: ID!
+  name: String
+  description: String
+}

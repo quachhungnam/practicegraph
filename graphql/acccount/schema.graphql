@@ -1,0 +1,26 @@
+type Account {
+  _id: ID
+  username: String
+  password: String
+  status: Boolean
+  name: String
+  email: String
+  mobile: String
+  address: String
+}
+type Query {
+  accounts: [Account]
+}
+type Mutation {
+  createAccount(
+    username: String
+    password: String
+    status: Int
+    name: String
+    email: String
+    mobile: String
+    address: String
+  ): Account
+  updateAccount(username: String, password: String): Account
+  deleteAccount(username: String): Boolean
+}

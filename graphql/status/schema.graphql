@@ -1,0 +1,10 @@
+
+    type Status{
+        _id:ID!
+        code:Int
+        description:String
+    }
+
+    type Query {
+        status:[Status]
+    }

@@ -1,0 +1,11 @@
+type Post {
+  _id: ID!
+  title: String
+  hostId: Account
+  postTypeId: PostType
+  province: Province
+  statusId: Status
+}
+type Query {
+  posts: [Post]
+}
