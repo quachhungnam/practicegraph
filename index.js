@@ -1,15 +1,20 @@
+require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
 
 const app = express();
 const { ApolloServer } = require('apollo-server-express');
-const resolvers = require('./graphql/resolvers');
-const typeDefs = require('./graphql/typeDefs');
+// const resolvers = require('./graphql/resolvers');
 const mongoDataMethods = require('./controller');
+const mergeTypeDefs = require('./graphql/typeDefs/index');
+const resolvers = require('./graphql/resolvers/index');
+
+const { PORT, DB_HOST } = process.env;
 
 const connectDB = async () => {
   try {
-    await mongoose.connect('mongodb://localhost:27017/timtro', {
+    await mongoose.connect(DB_HOST, {
       useCreateIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -24,13 +29,13 @@ const connectDB = async () => {
 };
 
 connectDB();
+
 const server = new ApolloServer({
-  typeDefs,
+  typeDefs: mergeTypeDefs,
   resolvers,
   context: () => ({ mongoDataMethods }),
 });
 
 // const server = new ApolloServer({ typeDefs, resolvers, introspection: true });
 server.applyMiddleware({ app });
-
-app.listen(3333, () => { console.log('Server is running on PORT: 3333'); });
+app.listen(3333, () => { console.log(`Server is running on PORT: ${PORT}`); });

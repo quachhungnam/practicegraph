@@ -1,9 +1,8 @@
 const graphqlFields = require('graphql-fields');
-const Account = require('../models/Account');
-const Post = require('../models/Post');
-const PostType = require('../models/PostType');
-const Status = require('../models/Status');
-const ffff = require('./index');
+const Account = require('../../models/Account');
+const Post = require('../../models/Post');
+const PostType = require('../../models/PostType');
+const Status = require('../../models/Status');
 
 const getMongooseSelection = (info, fieldPath = null) => {
   const selections = graphqlFields(info);
@@ -11,39 +10,14 @@ const getMongooseSelection = (info, fieldPath = null) => {
   return mgs;
 };
 
-const resolvers = {
+module.exports = {
   Query: {
     accounts: async (root, args, context, info) => {
       const mongooseSelection = await getMongooseSelection(info);
       const accounts = await Account.find({}).select(mongooseSelection).lean();
-      console.log(accounts);
-      console.log(ffff);
       return accounts;
     },
-    status: async (root, args, context, info) => {
-      const statuss = await Status.find();
-      return statuss;
-    },
-    posts: async (root, args, context, info) => {
-      const posts = await Post.find();
-      return posts;
-    },
 
-  },
-  Post: {
-    hostId: async root => {
-      const account = await Account.findById(root.hostId);
-      return account;
-    },
-    postTypeId: async root => {
-      const posttype = await PostType.findById(root.postTypeId);
-      return posttype;
-    },
-    statusId: async root => {
-      // const rs = await Status.find({ _id: sssss.statusId });
-      const rs = await Status.findById(root.statusId);
-      return rs;
-    },
   },
 
   Mutation: {
@@ -70,6 +44,3 @@ const resolvers = {
   },
 
 };
-
-// export default resolvers;
-module.exports = resolvers;
